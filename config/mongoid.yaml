@@ -5,12 +5,23 @@ defaults: &defaults
     password: <%= ENV['MONGOID_PASS'] %>
     database: <%= ENV['MONGOID_DATABASE'] %>
 
-
 development:  
-    <<: *defaults
-    
+    host: <%= ENV['MONGOID_HOST'] %>
+    port: <%= ENV['MONGOID_PORT'] %>
+    username: <%= ENV['MONGOID_USER'] %>
+    password: <%= ENV['MONGOID_PASS'] %>
+    database: <%= ENV['MONGOID_DATABASE'] %>
+
 test:  
-    <<: *defaults
+    host: <%= ENV['MONGOID_HOST'] %>
+    port: <%= ENV['MONGOID_PORT'] %>
+    username: <%= ENV['MONGOID_USER'] %>
+    password: <%= ENV['MONGOID_PASS'] %>
+    database: <%= ENV['MONGOID_DATABASE'] %>
 
 production:  
-    <<: *defaults
+    host: <%= ENV['MONGOID_HOST'] %>
+    port: <%= ENV['MONGOID_PORT'] %>
+    username: <%= ENV['MONGOID_USER'] %>
+    password: <%= ENV['MONGOID_PASS'] %>
+    database: <%= ENV['MONGOID_DATABASE'] %>
