@@ -85,7 +85,7 @@ class User
     puts location.inspect
     puts ""
     puts ""
-    self.location = {
+    self.last_location = {
       latitude: location["latitude"],
       longitude: location["longitude"]
     }
@@ -97,8 +97,8 @@ class User
 
   #Update alerts
   def update_alerts
-    lat = self.location.latitude.to_i
-    long = self.location.longitude.to_i
+    lat = self.last_location.latitude.to_i
+    long = self.last_location.longitude.to_i
     ten_miles = 0.144927536 # in arc degrees
     north = lat + ten_miles
     south = lat - ten_miles
