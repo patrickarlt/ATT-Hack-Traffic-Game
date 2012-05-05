@@ -19,7 +19,7 @@ class User
   field :geoloqi_user_id, type: String
   field :geoloqi_access_token, type: String
   
-  before_create :create_geolqoi_user
+  before_create :create_geoloqi_user
   after_create :create_schedule
   after_create :update_location
 
