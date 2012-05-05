@@ -22,14 +22,12 @@ class User
   
   before_create :create_geoloqi_user
   after_create :create_schedule
-  after_create :update_location
 
   #has_many :alerts
   #has_many :penalties
   
-  def self.preform(user_id, task)
-   user = self.find(user_id)
-   user.update_location if task == "update_location"
+  def self.preform
+   
   end 
   
   def create_geoloqi_user
@@ -42,6 +40,7 @@ class User
     puts ""
     
     self.geoloqi_access_token = anon_user.access_token
+    self.update_location
   end
   
   def create_schedule
@@ -88,9 +87,9 @@ class User
     self.last_location = {
       latitude: location["latitude"],
       longitude: location["longitude"]
-    }
+    }  
   end
-
+  
   #Update at&t refresh token
   def update_refresh_token
   end
