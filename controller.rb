@@ -33,18 +33,20 @@ end
 
   get '/auth/callback' do
     begin
-    access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
-    api_url = "/1/devices/tel:#{session[:phone]}/location?access_token=#{access_token.token}&requestedAccuracy=1000"
-    location = JSON.parse(access_token.get(api_url).body)
-    User.create({
-      att_access_token: access_token["access_token"],
-      att_refresh_token: access_token["refresh_token"],
-      att_token_expires: access_token["expires_in"],
-      phone_number: session[:phone]
-    })
-    erb "<p>Your location:\n#{location.inspect}</p>"
-  rescue OAuth2::Error => e
-    erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
+      access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
+      api_url = "/1/devices/tel:#{session[:phone]}/location?access_token=#{access_token.token}&requestedAccuracy=1000"
+      location = JSON.parse(access_token.get(api_url).body)
+      User.create({
+        att_access_token: access_token["access_token"],
+        att_refresh_token: access_token["refresh_token"],
+        att_token_expires: access_token["expires_in"],
+        phone_number: session[:phone]
+      })
+
+      erb "<p>Your location:\n#{location.inspect}</p>"
+    rescue OAuth2::Error => e
+      erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
+    end
   end
     
   get '/auth/failure' do
