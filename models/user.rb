@@ -26,12 +26,12 @@ class User
   def self.preform user_id task
     self.all_in.each do |user|
       ResqueScheduler.schedule({
-        "every": "30s",
-        "class": "User",
-        "queue": "user",
-        "args": "test"
-        "description": "Ask the user class to queue jobs"
-     });
+        "every"=> "30s",
+        "class"=> "User",
+        "queue"=> "user",
+        "args"=> "test"
+        "description"=> "Ask the user class to queue jobs"
+     })
 
       puts user.inspect
     end
