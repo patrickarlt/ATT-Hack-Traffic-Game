@@ -4,7 +4,7 @@ helpers do
                        :site => 'https://api.att.com',
                        :authorize_url => 'https://api.att.com/oauth/authorize',
                        :token_url => 'https://api.att.com/oauth/token'})
-    
+
   end
 
   def redirect_uri(path = '/auth/callback', query = nil)
@@ -34,15 +34,18 @@ end
   get '/auth/callback' do
     begin
       access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
-      puts access_token.inspect
-      #User.create({
-      #  att_access_token: access_token["access_token"],
-      #  att_refresh_token: access_token["refresh_token"],
-      #  att_token_expires: access_token["expires_in"],
-      #  phone_number: session[:phone]
-      #})
       
-      "#{access_token}"
+      puts "access_token.inspect"
+      puts access_token.inspect
+      
+      User.create({
+        att_access_token: access_token["access_token"],
+        att_refresh_token: access_token["refresh_token"],
+        att_token_expires: access_token["expires_in"],
+        phone_number: session[:phone]
+      })
+      
+      "#{access_token.inspect}"
     rescue OAuth2::Error => e
       erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
     end
