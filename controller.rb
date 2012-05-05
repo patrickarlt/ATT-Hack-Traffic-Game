@@ -1,23 +1,21 @@
-helpers do
-  def client
-    OAuth2::Client.new(ENV['ATT_API_KEY'], ENV['ATT_SECRET'],{
-                       :site => 'https://api.att.com',
-                       :authorize_url => 'https://api.att.com/oauth/authorize',
-                       :token_url => 'https://api.att.com/oauth/token'})
+  helpers do
+    def client
+      OAuth2::Client.new(ENV['ATT_API_KEY'], ENV['ATT_SECRET'],{
+                         :site => 'https://api.att.com',
+                         :authorize_url => 'https://api.att.com/oauth/authorize',
+                         :token_url => 'https://api.att.com/oauth/token'})
 
+    end
+
+    def redirect_uri(path = '/auth/callback', query = nil)
+      uri = URI.parse(request.url)
+      uri.path  = path
+      uri.query = query
+      uri.to_s
+    end
   end
 
-  def redirect_uri(path = '/auth/callback', query = nil)
-    uri = URI.parse(request.url)
-    uri.path  = path
-    uri.query = query
-    uri.to_s
-  end
-end
-
-  get "/" do
-    REDIS.set("woot", "cool");
-    REDIS.get("woot");
+  get "/" do   
     erb :index
   end
 

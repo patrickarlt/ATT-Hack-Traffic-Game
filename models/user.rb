@@ -81,13 +81,13 @@ class User
     puts ""
     puts self.phone_number
     puts self.att_access_token
-    location = Hashie::Mash.new(RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000"));
+    location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
     puts location.inspect
     puts ""
     puts ""
     self.location = {
-      latitude: location.latitude,
-      longitude: location.longitude
+      latitude: location["latitude"],
+      longitude: location["longitude"]
     }
   end
 
