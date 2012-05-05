@@ -22,4 +22,4 @@ gem "bson_ext",             "~> 1.5.2"
 gem "bcrypt-ruby",                        :require => "bcrypt"
 gem 'puma'
 
-gem "oauth", "~> 0.4.6", :require => "oauth2"
+gem "oauth2", "~> 0.7.1"
