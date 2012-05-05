@@ -22,7 +22,7 @@ end
   end
 
   get "/user" do
-    user = User.first().entries;
+    user = User.first;
     puts ""
     puts user.inspect
     puts ""
