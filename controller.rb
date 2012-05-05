@@ -4,7 +4,7 @@ helpers do
                        (ENV['ATT_SECRET']||'testing'),
                        :site => 'https://api.att.com',
                        :authorize_url => 'https://api.att.com/oauth/authorize',
-                       :token_url => 'https://api.att.com/oauth/access_token')
+                       :token_url => 'https://api.att.com/oauth/token')
   end
 
   def redirect_uri(path = '/auth/callback', query = nil)
@@ -31,10 +31,18 @@ end
   end
 
   get '/auth/callback' do
-    puts "Calbback"
-    access_token = params[:code];  
+    puts "Calback"
+    auth_token = params[:code]
+    access_token = RestClient.post("https://api.att.com/oauth/token", {
+      grant_type: "authorization_code", 
+      client_id: ENV['ATT_API_KEY'],
+      client_secret: ENV['ATT_SECRET'],
+      code: auth_token
+    })
     User.create({
-      att_access_token: access_token,
+      att_access_token: access_token[:access_token],
+      att_refresh_token: access_token[:refresh_token],
+      att_token_expires: access_token[:expires_in],
       phone_number: session[:phone]
     })
   end
