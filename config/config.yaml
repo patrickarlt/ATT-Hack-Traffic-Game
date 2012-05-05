@@ -1,7 +1,7 @@
 defaults: &defaults  
-  title: Application Framework
-  session_secret: 'PUT SOMETHING HERE'
-
+  title: Traffic Game
+  session_secret: <%= ENV['ATT_HACK_SESSION_SECRET'] %>
+  mapquest_api_key: <%= ENV['ATT_HACK_MAPQUEST_KEY'] %>
 development:  
   <<: *defaults
 

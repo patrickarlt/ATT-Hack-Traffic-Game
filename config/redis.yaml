@@ -1,5 +1,5 @@
 defaults: &defaults  
-  redis_url: http://localhost:6379
+  redis_url:  <%= ENV['REDISTOGO_URL'] %>
 
 development:  
   <<: *defaults

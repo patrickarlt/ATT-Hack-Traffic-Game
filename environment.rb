@@ -16,7 +16,6 @@ class Controller < Sinatra::Base
     @_config
   end
   
-  register Sinatra::Flash
   helpers  Sinatra::UserAgentHelpers
   
   # Set Sinatra Root
