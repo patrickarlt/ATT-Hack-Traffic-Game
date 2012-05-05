@@ -24,7 +24,7 @@ class Controller < Sinatra::Base
   set :public_folder,   'public'
   set :erubis,          :escape_html => true
   set :sessions,        true
-  set :session_secret,  Settings.session_secret
+  set :session_secret,  @_config.session_secret
 
   # Development Specific Configuration
   configure :development do
