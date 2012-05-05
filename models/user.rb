@@ -17,7 +17,6 @@ class User
   
   #geoloqi specific
   field :geoloqi_access_token, type: String
-  field :geoloqi_refresh_token, type: String
   
   before_create :create_geoloqi_user
   after_create :create_schedule
@@ -36,7 +35,6 @@ class User
     puts ""
     
     self.geoloqi_access_token = anon_user.access_token
-    self.geoloqi_refresh_token = anon_user.refresh_token
   end
   
   def create_schedule
