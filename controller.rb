@@ -29,6 +29,8 @@ end
   get '/auth/callback' do
     puts "Calbback"
     access_token = params[:code];
+    User.delete_all()
+    User.destory_all()
     User.create({
       att_access_token: access_token  
     })
