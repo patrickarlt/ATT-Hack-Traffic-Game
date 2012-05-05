@@ -32,25 +32,21 @@ end
   end
 
   get '/auth/callback' do
-    puts "Callback"
-    auth_token = params[:code]
-    access_token = RestClient.post("https://api.att.com/oauth/token", {
-      grant_type: "authorization_code", 
-      client_id: ENV['ATT_API_KEY'],
-      client_secret: ENV['ATT_SECRET'],
-      code: auth_token
-    })
-
-    puts access_token.inspect
-    
+    begin
+    access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
+    api_url = "/1/devices/tel:#{session[:phone]}/location?access_token=#{access_token.token}&requestedAccuracy=1000"
+    location = JSON.parse(access_token.get(api_url).body)
     User.create({
       att_access_token: access_token["access_token"],
       att_refresh_token: access_token["refresh_token"],
       att_token_expires: access_token["expires_in"],
       phone_number: session[:phone]
     })
+    erb "<p>Your location:\n#{location.inspect}</p>"
+  rescue OAuth2::Error => e
+    erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
   end
-
+    
   get '/auth/failure' do
     erb "<h1>Authentication Failed:</h1><h3>message:<h3> <pre>#{params}</pre>"
   end
