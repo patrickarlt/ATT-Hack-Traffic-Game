@@ -34,7 +34,7 @@ end
     puts "Calbback"
     access_token = params[:code];  
     User.create({
-      att_access_token: access_token  
+      att_access_token: access_token,
       phone_number: session[:phone]
     })
   end
