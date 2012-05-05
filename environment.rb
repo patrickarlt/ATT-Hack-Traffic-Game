@@ -63,15 +63,5 @@ Dir.glob(%w{lib/** helpers models}.map! {|d| File.join d, '*.rb'}).each {|f| req
     Resque.redis = REDIS
   end
 
-end
-
 # Require Controllers
 require_relative './controller.rb'
-Dir.glob(['controllers'].map! {|d| File.join d, '*.rb'}).each do |f| 
-  require_relative f
-  
-  # Ugly fix to include the asset code until the inheritance bug is fixed.
-  (Controller.controller_names << 'controller').each do |controller|
-    eval "#{controller.capitalize}.send(:include, Assets)"
-  end
-end
