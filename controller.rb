@@ -22,7 +22,7 @@ end
   end
 
   get "/user" do
-    user = User.find('4fa5ac0c627d320001000001');
+    user = User.first().entries;
     puts ""
     puts user.inspect
     puts ""
