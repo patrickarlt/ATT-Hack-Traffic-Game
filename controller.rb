@@ -21,15 +21,9 @@ end
     erb :index
   end
 
-  get "/redis" do
-    REDIS.set("woot", "cool");
-    var = REDIS.get("woot");
-    "#{var}"
-  end
-  
-  get "/destory_all" do
-    User.delete_all
-    "true"
+  get "/user" do
+    user = User.find('4fa5ac0c627d320001000001');
+    "#{user.inspect}"
   end
   
   get '/auth' do
