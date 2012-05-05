@@ -55,7 +55,7 @@ class User
       :class => 'User',
       :every => '30s',
       :queue => 'users',
-      :args => ["update_location", self.id])
+      :args => ["update_location", self.id]})
   end
 
   #Update a users location (using at&t)
