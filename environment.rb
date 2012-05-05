@@ -22,9 +22,6 @@ Dir.glob(%w{lib/** helpers models}.map! {|d| File.join d, '*.rb'}).each {|f| req
   set :erubis,          :escape_html => true
   set :sessions,        true
   set :session_secret,  @_config.session_secret
-  set :logging, true
-
-  use Rack::ShowExceptions
 
   # Set controller names so we can map them in the config.ru file.
   set :controller_names, []

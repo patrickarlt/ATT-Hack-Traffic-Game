@@ -20,11 +20,11 @@
   end
 
   get "/user" do
-    user = User.first;
+    users = User.all_in.entries;
     puts ""
-    puts user.inspect
+    puts users.inspect
     puts ""
-    "#{user.inspect} hello"
+    "#{users.inspect} hello"
   end
   
   get '/auth' do

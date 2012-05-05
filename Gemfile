@@ -8,7 +8,6 @@ gem "rb-fsevent",           "~> 0.4.3.1"
 gem "erubis",               "2.7.0"
 gem "rake",                                 :require => nil
 gem "hashie",               "1.2.0"
-gem "json"
 
 gem "geoloqi", "0.9.39"
 gem "rest-client", "~> 1.6.7"
