@@ -52,11 +52,11 @@ class User
     puts ""
     puts ""
     
-    ResqueScheduler.set_schedule('update_user_location', {
-      :class => 'User',
-      :every => '30s',
-      :queue => 'users',
-      :args => ["update_location", self.id]})
+    #ResqueScheduler.set_schedule('update_user_location', {
+    #  :class => 'User',
+    #  :every => '30s',
+    #  :queue => 'users',
+    #  :args => ["update_location", self.id]})
 
     #ResqueScheduler.set_schedule('refresh_token', {
     #  :class => 'User',
