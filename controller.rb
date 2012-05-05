@@ -39,9 +39,9 @@ end
       puts access_token.inspect
       
       User.create({
-        att_access_token: access_token["access_token"],
-        att_refresh_token: access_token["refresh_token"],
-        att_token_expires: access_token["expires_in"],
+        att_access_token: access_token.token,
+        att_refresh_token: access_token.refresh_token,
+        att_token_expires: access_token.expires_at,
         phone_number: session[:phone]
       })
       

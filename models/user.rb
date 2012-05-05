@@ -8,6 +8,7 @@ class User
   field :phone_number, type: String
   field :att_access_token, type: String
   field :att_refresh_token, type: String
+  field :att_token_expires, type: Integer
   
   #When Location Was Last Updated
   field :last_location, type: Hash
