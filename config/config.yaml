@@ -1,7 +1,10 @@
 defaults: &defaults  
   title: Traffic Game
-  session_secret: <%= ENV['ATT_HACK_SESSION_SECRET'] %>
-  mapquest_api_key: <%= ENV['ATT_HACK_MAPQUEST_KEY'] %>
+  session_secret: <%= ENV['SESSION_SECRET'] %>
+  mapquest_api_key: <%= ENV['MAPQUEST_KEY'] %>
+  geoloqi_client_id: <%=ENV["GEOLOQI_CLIENT_ID"] %>
+  geoloqi_client_id: <%=ENV["GEOLOQI_CLIENT_SECRET"] %>
+  geoloqi_application_access_token: <%= ENV['GEOLOQI_APP_TOKEN'] %>
 development:  
   <<: *defaults
 
