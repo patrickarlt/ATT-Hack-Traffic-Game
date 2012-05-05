@@ -11,6 +11,8 @@ gem "rake",                                 :require => nil
 gem "hashie",               "1.2.0"
 gem "json"
 
+gem "geoloqi", "~> 0.9.40"
+
 gem "redis"
 gem "resque",               "~> 1.19.0"
 gem "resque-scheduler",     "~> 2.0.0.e"
