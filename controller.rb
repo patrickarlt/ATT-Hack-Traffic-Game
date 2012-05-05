@@ -18,7 +18,11 @@ end
   get "/" do
     erb :index
   end
-
+  
+  get "/destory_all" do
+    User.delete_all
+  end
+  
   get '/auth' do
     session[:phone] = params[:phone].delete "-"
     authorization_url = client.auth_code.authorize_url(:redirect_uri => redirect_uri, :response_type => "client_credentials", :scope => "TL")
@@ -28,12 +32,11 @@ end
 
   get '/auth/callback' do
     puts "Calbback"
-    access_token = params[:code];
-    User.delete_all
+    access_token = params[:code];  
     User.create({
       att_access_token: access_token  
+      phone_number: session[:phone]
     })
-    "#{access_token}"
   end
 
   get '/auth/failure' do

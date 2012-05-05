@@ -5,6 +5,7 @@ class User
   include Mongoid::Document
   
   #ATT specific
+  field :phone_number, type: String
   field :att_access_token, type: String
   field :att_refresh_token, type: String
   
@@ -24,6 +25,22 @@ class User
 
   #has_many :alerts
   #has_many :penalties
+  
+  def self.preform(user_id, task)
+   
+    #self.all_in.each do |user|
+    #  ResqueScheduler.schedule({
+    #    "every"=> "30s",
+    #    "class"=> "User",
+    #    "queue"=> "user",
+    #    "args"=> "test",
+    #    "description"=> "Ask the user class to queue jobs"
+    # })
+
+    #  puts user.inspect
+    #end
+
+  end 
   
   def create_geoloqi_user
     anon_user = GEOLOQI.application_post("user/create_anon");
@@ -45,29 +62,18 @@ class User
     puts ""
     puts ""
   end
-  
-  def self.preform(user_id, task)
-   
-    #self.all_in.each do |user|
-    #  ResqueScheduler.schedule({
-    #    "every"=> "30s",
-    #    "class"=> "User",
-    #    "queue"=> "user",
-    #    "args"=> "test",
-    #    "description"=> "Ask the user class to queue jobs"
-    # })
-
-    #  puts user.inspect
-    #end
-
-  end
 
   #Update a users location (using at&t)
   def update_location
     puts ""
     puts ""
     puts "Update Location"
+    "/1/devices/tel:7348833328/location?access_token=7de39ddaed540664b0ff8933c951c87a&requestedAccuracy=1000"
     puts self.inspect
+    puts ""
+    puts ""
+    location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
+    puts location.inspect
     puts ""
     puts ""
   end
