@@ -1,10 +1,10 @@
 helpers do
   def client
-    OAuth2::Client.new((ENV['ATT_API_KEY']),
-                       (ENV['ATT_SECRET']),
+    OAuth2::Client.new(ENV['ATT_API_KEY'], ENV['ATT_SECRET'],{
                        :site => 'https://api.att.com',
                        :authorize_url => 'https://api.att.com/oauth/authorize',
-                       :token_url => 'https://api.att.com/oauth/token')
+                       :token_url => 'https://api.att.com/oauth/token'})
+    
   end
 
   def redirect_uri(path = '/auth/callback', query = nil)
