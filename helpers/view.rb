@@ -1,4 +1,4 @@
-class Controller < Sinatra::Base
+
   helpers do
 
     def checked_if(boolean)
@@ -51,4 +51,4 @@ class Controller < Sinatra::Base
       classes.join(" ")
     end
   end
-end
+

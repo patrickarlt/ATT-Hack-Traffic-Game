@@ -1,5 +1,5 @@
-class Controller < Sinatra::Base
- 
+
+
   get "/" do
     erb :index
   end
@@ -25,5 +25,3 @@ class Controller < Sinatra::Base
   get '/auth/failure' do
     erb "<h1>Authentication Failed:</h1><h3>message:<h3> <pre>#{params}</pre>"
   end
-
-end
