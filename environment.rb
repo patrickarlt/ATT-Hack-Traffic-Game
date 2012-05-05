@@ -57,10 +57,10 @@ Dir.glob(%w{lib/** helpers models}.map! {|d| File.join d, '*.rb'}).each {|f| req
 
   # Initialize Redis and Resque
   configure do
-    redis_config = URI.parse(ENV['REDISTOGO_URL'])
-    REDIS = Redis.new("host" => redis_config.host, "port" => redis_config.port, "password" => redis_config.password)
+    uri = URI.parse(ENV["REDISTOGO_URL"])
+    REDIS = Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
     Resque.redis = REDIS
   end
-
+  
 # Require Controllers
 require_relative './controller.rb'
