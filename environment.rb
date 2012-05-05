@@ -1,5 +1,4 @@
 ENV['RACK_ENV'] ||= 'development'
-Encoding.default_internal = 'UTF-8'
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require
@@ -23,22 +22,9 @@ Dir.glob(%w{lib/** helpers models}.map! {|d| File.join d, '*.rb'}).each {|f| req
   set :erubis,          :escape_html => true
   set :sessions,        true
   set :session_secret,  @_config.session_secret
+  set :logging, true
 
-  # Development Specific Configuration
-  configure :development do
-    Bundler.require :development
-    use Rack::ShowExceptions
-  end
-
-  # Test Specific Configuration
-  configure :test do
-    Bundler.require :test
-  end
-
-  # Production Specific Configuration
-  configure :production do
-    Bundler.require :production
-  end
+  use Rack::ShowExceptions
 
   # Set controller names so we can map them in the config.ru file.
   set :controller_names, []

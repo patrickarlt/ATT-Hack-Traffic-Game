@@ -24,7 +24,7 @@
     puts ""
     puts user.inspect
     puts ""
-    "#{user.inspect}"
+    "#{user.inspect} hello"
   end
   
   get '/auth' do
