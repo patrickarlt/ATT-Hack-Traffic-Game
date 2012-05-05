@@ -72,8 +72,8 @@ class User
     puts ""
     puts self.phone_number
     puts self.att_access_token
-    location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
-    puts location.inspect
+    #location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
+    #puts location.inspect
     puts ""
     puts ""
   end
