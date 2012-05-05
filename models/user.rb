@@ -52,19 +52,19 @@ class User
     puts ""
     puts ""
     
-    Resque.set_schedule('update_user_location', {
+    ResqueScheduler.set_schedule('update_user_location', {
       :class => 'User',
       :every => '30s',
       :queue => 'users',
       :args => ["update_location", self.id]})
 
-    #Resque.set_schedule('refresh_token', {
+    #ResqueScheduler.set_schedule('refresh_token', {
     #  :class => 'User',
     #  :every => '30s',
     #  :queue => 'users',
     #  :args => ["update_location", self.id]})
 
-    #Resque.set_schedule('update_notifications', {
+    #ResqueScheduler.set_schedule('update_notifications', {
     #  :class => 'User',
     #  :every => '30s',
     #  :queue => 'users',
