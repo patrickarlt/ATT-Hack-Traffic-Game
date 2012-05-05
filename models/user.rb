@@ -68,10 +68,11 @@ class User
     puts ""
     puts ""
     puts "Update Location"
-    "/1/devices/tel:7348833328/location?access_token=7de39ddaed540664b0ff8933c951c87a&requestedAccuracy=1000"
     puts self.inspect
     puts ""
-    puts ""
+    puts self.phone_number
+    puts self.att_access_token
+    puts self.
     location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
     puts location.inspect
     puts ""
