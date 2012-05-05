@@ -6,6 +6,7 @@ desc "Setup Resque"
 task "resque:setup" do
   ENV['QUEUE'] = '*'
   require 'resque/scheduler' 
+  Resque::Scheduler.dynamic = true
   Resque.schedule = YAML.load_file('./config/resque_schedule.yaml')
 end
 

@@ -9,7 +9,7 @@ class User
   field :att_access_token, type: String
   field :att_refresh_token, type: String
   field :att_token_expires, type: Integer
-  
+
   #When Location Was Last Updated
   field :last_location, type: Hash
   field :last_location_update, type: Date
@@ -28,19 +28,8 @@ class User
   #has_many :penalties
   
   def self.preform(user_id, task)
-   
-    #self.all_in.each do |user|
-    #  ResqueScheduler.schedule({
-    #    "every"=> "30s",
-    #    "class"=> "User",
-    #    "queue"=> "user",
-    #    "args"=> "test",
-    #    "description"=> "Ask the user class to queue jobs"
-    # })
-
-    #  puts user.inspect
-    #end
-
+   user = self.find(user_id)
+   user.update_location if task == "update_location"
   end 
   
   def create_geoloqi_user
@@ -62,6 +51,11 @@ class User
     puts self.inspect
     puts ""
     puts ""
+    Resque.set_schedule('update_user_location', {
+      :class => 'User',
+      :every => '30s',
+      :queue => 'users',
+      :args => ["update_location", self.id])
   end
 
   #Update a users location (using at&t)
@@ -73,8 +67,8 @@ class User
     puts ""
     puts self.phone_number
     puts self.att_access_token
-    #location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
-    #puts location.inspect
+    location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
+    puts location.inspect
     puts ""
     puts ""
   end
