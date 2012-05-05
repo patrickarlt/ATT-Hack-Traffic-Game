@@ -55,12 +55,13 @@ class Controller < Sinatra::Base
   #Mongoid.load!(File.join(settings.root,"config","mongoid.yaml"))
   #Mongoid.logger = Logger.new($stdout, :info) if ENV['RACK_ENV'] == "development"
   
-  GEOLOQI = Geoloqi::Session.new :access_token => @_config.geoloqi_application_access_token, :config => {:client_id => @_config.geoloqi_client_id, :client_secret => @_config.geoloqi_client_secret}
+  #GEOLOQI = Geoloqi::Session.new :access_token => @_config.geoloqi_application_access_token, :config => {:client_id => @_config.geoloqi_client_id, :client_secret => @_config.geoloqi_client_secret}
 
   # Initialize Redis and Resque
   configure do
-    redis_config = URI.parse(ENV['REDISTOGO_URL'] )
-    REDIS = Redis.new(host: redis_config.host, port: redis_config.port, password: redis_config.password)
+    redis_config = URI.parse(ENV['REDISTOGO_URL'])
+    puts redis_config
+    REDIS = Redis.new("host" => redis_config.host, "port" => redis_config.port, "password" => redis_config.password)
     Resque.redis = REDIS
   end
 
