@@ -1,7 +1,7 @@
 helpers do
   def client
-    OAuth2::Client.new((ENV['ATT_API_KEY']||'testing'),
-                       (ENV['ATT_SECRET']||'testing'),
+    OAuth2::Client.new((ENV['ATT_API_KEY']),
+                       (ENV['ATT_SECRET']),
                        :site => 'https://api.att.com',
                        :authorize_url => 'https://api.att.com/oauth/authorize',
                        :token_url => 'https://api.att.com/oauth/token')
@@ -21,7 +21,7 @@ end
   
   get "/destory_all" do
     User.delete_all
-    true
+    "true"
   end
   
   get '/auth' do
@@ -34,16 +34,15 @@ end
   get '/auth/callback' do
     begin
       access_token = client.auth_code.get_token(params[:code], :redirect_uri => redirect_uri)
-      api_url = "/1/devices/tel:#{session[:phone]}/location?access_token=#{access_token.token}&requestedAccuracy=1000"
-      location = JSON.parse(access_token.get(api_url).body)
-      User.create({
-        att_access_token: access_token["access_token"],
-        att_refresh_token: access_token["refresh_token"],
-        att_token_expires: access_token["expires_in"],
-        phone_number: session[:phone]
-      })
-
-      erb "<p>Your location:\n#{location.inspect}</p>"
+      puts access_token.inspect
+      #User.create({
+      #  att_access_token: access_token["access_token"],
+      #  att_refresh_token: access_token["refresh_token"],
+      #  att_token_expires: access_token["expires_in"],
+      #  phone_number: session[:phone]
+      #})
+      
+      "#{access_token}"
     rescue OAuth2::Error => e
       erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
     end
