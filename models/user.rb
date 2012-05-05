@@ -5,7 +5,6 @@ class User
   include Mongoid::Document
   
   #ATT specific
-  field :phone_number, type: String
   field :att_access_token, type: String
   field :att_refresh_token, type: String
   
@@ -20,34 +19,53 @@ class User
   field :geoloqi_user_id, type: String
   field :geoloqi_access_token, type: String
   
+  before_create :create_geolqoi_user
+  after_create :create_schedule
+  after_create :update_location
+
   #has_many :alerts
   #has_many :penalties
   
-  #def self.preform(user_id, task)
+  def create_geoloqi_user
+    anon_user = GEOLOQI.application_post("user/create_anon");
+    puts anon_user.inspect
+  end
+  
+  def create_schedule
+    puts ""
+    puts ""
+    puts "Create Schedule"
+    puts self.inspect
+    puts ""
+    puts ""
+  end
+  
+  def self.preform(user_id, task)
    
     #self.all_in.each do |user|
-      #ResqueScheduler.schedule({
-      #  "every"=> "30s",
-      #  "class"=> "User",
-      #  "queue"=> "user",
-      #  "args"=> "test",
-      #  "description"=> "Ask the user class to queue jobs"
-      #})
+    #  ResqueScheduler.schedule({
+    #    "every"=> "30s",
+    #    "class"=> "User",
+    #    "queue"=> "user",
+    #    "args"=> "test",
+    #    "description"=> "Ask the user class to queue jobs"
+    # })
 
-      #puts user.inspect
+    #  puts user.inspect
     #end
 
-  #end
+  end
 
-  # Update a users location (using at&t)
-  #def update_location
-  #end
+  #Update a users location (using at&t)
+  def update_location
+    puts "Update Location"
+  end
 
-  # Update at&t refresh token
-  #def update_refresh_token
-  #end
+  #Update at&t refresh token
+  def update_refresh_token
+  end
 
-  # Update alerts
-  #def update_alerts
-  #end
+  #Update alerts
+  def update_alerts
+  end
 end
