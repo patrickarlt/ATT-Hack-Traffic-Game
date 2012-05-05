@@ -1,13 +1,2 @@
-defaults: &defaults
-  host: localhost
-  allow_dynamic_fields: false
-  autocreate_indexes: false
-  raise_not_found_error: true
-
-development:
-  <<: *defaults
-  database: development
-
-test:
-  <<: *defaults
-  database: test
+production:
+  uri: <%= ENV['MONGOLAB_URI'] %>

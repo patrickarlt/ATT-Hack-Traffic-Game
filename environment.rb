@@ -52,12 +52,8 @@ class Controller < Sinatra::Base
   def p; params end
 
   # Initialize MongoID
-  #Mongoid.load!(File.join(settings.root,"config","mongoid.yaml"))
-  
-  Mongoid.configure do |config|
-   config.master = Mongo::Connection.from_uri(ENV['MONGOHQ_URL']);
-  end
-  #Mongoid.logger = Logger.new($stdout, :info) if ENV['RACK_ENV'] == "development"
+  Mongoid.load!(File.join(settings.root,"config","mongoid.yaml"))
+  Mongoid.logger = Logger.new($stdout, :info) if ENV['RACK_ENV'] == "development"
   
   GEOLOQI = Geoloqi::Session.new :access_token => @_config.geoloqi_application_access_token, :config => {:client_id => @_config.geoloqi_client_id, :client_secret => @_config.geoloqi_client_secret}
 
