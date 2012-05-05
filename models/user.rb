@@ -64,7 +64,7 @@ class User
     #  :queue => 'users',
     #  :args => ["update_location", self.id]})
 
-    #ResqueScheduler.set_schedule('update_notifications', {
+    #ResqueScheduler.set_schedule('update_alert', {
     #  :class => 'User',
     #  :every => '30s',
     #  :queue => 'users',
@@ -81,10 +81,14 @@ class User
     puts ""
     puts self.phone_number
     puts self.att_access_token
-    location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
+    location = Hashie::Mash.new(RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000"));
     puts location.inspect
     puts ""
     puts ""
+    self.location = {
+      latitude: location.latitude,
+      longitude: location.longitude
+    }
   end
 
   #Update at&t refresh token
@@ -93,5 +97,14 @@ class User
 
   #Update alerts
   def update_alerts
+    lat = self.location.latitude.to_i
+    long = self.location.longitude.to_i
+    ten_miles = .144927536 # in arc degrees
+    north = lat + ten_miles
+    south = lat - ten_miles
+    east = long + ten_miles
+    west = long + ten_miles
+    boundingBox = "#{north}, #{east}, #{south}, #{west}"
+    alerts = Hashie::Mash.new(RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&callback=handleIncidentsResponse&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json"))
   end
 end
