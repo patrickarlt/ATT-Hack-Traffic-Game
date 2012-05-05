@@ -27,10 +27,12 @@ end
   end
 
   get '/auth/callback' do
+    puts "Calbback"
     access_token = params[:code];
     User.create({
       att_access_token: access_token  
     })
+    "#{access_token}"
   end
 
   get '/auth/failure' do
