@@ -53,7 +53,7 @@ Dir.glob(%w{lib/** helpers models}.map! {|d| File.join d, '*.rb'}).each {|f| req
   Mongoid.load!(File.join(settings.root,"config","mongoid.yaml"))
   Mongoid.logger = Logger.new($stdout, :info) if ENV['RACK_ENV'] == "development"
   
-  GEOLOQI = Geoloqi::Session.new :access_token => @_config.geoloqi_application_access_token, :config => {:client_id => @_config.geoloqi_client_id, :client_secret => @_config.geoloqi_client_secret}
+  GEOLOQI = Geoloqi::Session.new :access_token => @_config.geoloqi_application_access_token, :config => {:client_id => @_config.geoloqi_client_id, :client_secret => @_config.geoloqi_client_secret, :use_hashie_mash: true}
 
   # Initialize Redis and Resque
   configure do
