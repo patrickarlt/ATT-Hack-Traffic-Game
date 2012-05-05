@@ -21,6 +21,7 @@ end
   
   get "/destory_all" do
     User.delete_all
+    true
   end
   
   get '/auth' do
@@ -39,10 +40,13 @@ end
       client_secret: ENV['ATT_SECRET'],
       code: auth_token
     })
+
+    puts access_token.inspect
+    
     User.create({
-      att_access_token: access_token[:access_token],
-      att_refresh_token: access_token[:refresh_token],
-      att_token_expires: access_token[:expires_in],
+      att_access_token: access_token["access_token"],
+      att_refresh_token: access_token["refresh_token"],
+      att_token_expires: access_token["expires_in"],
       phone_number: session[:phone]
     })
   end
