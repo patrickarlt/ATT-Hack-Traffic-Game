@@ -16,7 +16,15 @@ helpers do
 end
 
   get "/" do
+    REDIS.set("woot", "cool");
+    REDIS.get("woot");
     erb :index
+  end
+
+  get "/redis" do
+    REDIS.set("woot", "cool");
+    var = REDIS.get("woot");
+    "#{var}"
   end
   
   get "/destory_all" do

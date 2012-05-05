@@ -51,11 +51,25 @@ class User
     puts self.inspect
     puts ""
     puts ""
+    
     Resque.set_schedule('update_user_location', {
       :class => 'User',
       :every => '30s',
       :queue => 'users',
       :args => ["update_location", self.id]})
+
+    #Resque.set_schedule('refresh_token', {
+    #  :class => 'User',
+    #  :every => '30s',
+    #  :queue => 'users',
+    #  :args => ["update_location", self.id]})
+
+    #Resque.set_schedule('update_notifications', {
+    #  :class => 'User',
+    #  :every => '30s',
+    #  :queue => 'users',
+    #  :args => ["update_location", self.id]})
+
   end
 
   #Update a users location (using at&t)
