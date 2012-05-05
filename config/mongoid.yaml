@@ -1,2 +1,5 @@
 production:
   uri: <%= ENV['MONGOLAB_URI'] %>
+
+development:
+  uri: <%= ENV['MONGOLAB_URI'] %>

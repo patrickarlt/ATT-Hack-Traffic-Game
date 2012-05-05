@@ -31,7 +31,7 @@ end
   end
 
   get '/auth/callback' do
-    puts "Calback"
+    puts "Callback"
     auth_token = params[:code]
     access_token = RestClient.post("https://api.att.com/oauth/token", {
       grant_type: "authorization_code", 
