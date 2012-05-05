@@ -1,1 +1,5 @@
-<h1><%= @message %></h1>
+<form action="/auth">
+  <label for="phone">Phone Number</label>
+  <input type="text" name="phone" id="phone" />
+  <input type="submit" value="Locate" />
+<form>

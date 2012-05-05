@@ -29,9 +29,9 @@ class User
         "every"=> "30s",
         "class"=> "User",
         "queue"=> "user",
-        "args"=> "test"
+        "args"=> "test",
         "description"=> "Ask the user class to queue jobs"
-     })
+      })
 
       puts user.inspect
     end

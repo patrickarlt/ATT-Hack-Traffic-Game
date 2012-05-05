@@ -21,3 +21,5 @@ gem "mongoid",              "~> 2.3"
 gem "bson_ext",             "~> 1.5.2"
 gem "bcrypt-ruby",                        :require => "bcrypt"
 gem 'puma'
+
+gem "oauth", "~> 0.4.6"
