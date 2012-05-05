@@ -1,5 +1,5 @@
 source :rubygems
-gem "sinatra",              "1.3.2",        :require => "sinatra/base"
+gem "sinatra",              "1.3.2" 
 gem "sinatra-support",      "1.2.0",        :require => "sinatra/support"
 gem "yui-compressor",                       :require => "yui/compressor"
 gem "sass", "~> 3.1.12"
