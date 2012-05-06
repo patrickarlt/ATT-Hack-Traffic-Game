@@ -67,8 +67,8 @@
     @client = Twilio::REST::Client.new(@account_sid, @auth_token)
 
     @account = @client.account
-    @message = @account.sms.messages.create({:from => '+14155992671', :to => '7348833328', :body => data["place"]["extra"]["description"]})
-    "ok"
+    @message = @account.sms.messages.create({:from => '+14155992671', :to => '7348833328', :body => description})
+    halt 200, "ok"
   end
   
   get '/callback/penalty' do
