@@ -25,6 +25,7 @@
     puts users.inspect
     puts ""
     test = ""
+    
     users.each do |user|
       test += user.inspect
     end
