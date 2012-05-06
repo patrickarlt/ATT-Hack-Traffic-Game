@@ -25,7 +25,7 @@
       user.update_postition_and_alerts
       test += user.to_json
     end
-    halt 200 test
+    halt 200, test
   end
   
   get '/auth' do
