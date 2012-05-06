@@ -20,12 +20,10 @@
   end
 
   get "/user" do
+    test = ""
     User.all_in.each do |user|
-      test = ""
-      location = RestClient.get("https://api.att.com/1/devices/tel:#{user.phone_number}/location?access_token=#{user.att_access_token}&requestedAccuracy=1000");
-      lat = location["latitude"]
-      long = location["longitude"]
-      test += "#{lat},#{long} || "
+      user.update_postition_and_alerts
+      test += user.to_json
     end
     halt 200 test
   end
