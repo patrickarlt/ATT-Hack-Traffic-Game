@@ -64,7 +64,7 @@
     @auth_token = "e9c98d111c0471cc236d0c7a942276ad"
 
     # set up a client to talk to the Twilio REST API
-    @client = Twilio::REST::Client.new(@account_sid, @auth_token)
+    @client = Twilio::RestAccount.new(@account_sid, @auth_token)
 
     @account = @client.account
     @message = @account.sms.messages.create({:from => '+14155992671', :to => '7348833328', :body => data["place"]["extra"]["description"]})
