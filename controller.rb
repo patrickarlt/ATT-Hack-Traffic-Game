@@ -29,19 +29,35 @@
   end
   
   get '/callback/leaving' do
-    
-
-
-
-
-
+    "ok"
   end
 
   get '/callback/alert' do
+    "data" : {
+      "place":{
+      "place_id":"200",
+       "name":"Palo Alto",
+       "latitude":"37.441898",
+       "longitude":"-122.141899",
+       "extra":{
+          "description":"Car accident ahead!"
+          "mq_id" : "200"
+          "traffic_jam_url": "hollow-fog-8448.herokuapp.com/og/traffic_jam_200.html"
+       }
+    }
+  }
+    latitude = data["place"]["latitude"]
+    longitude = data["place"]["longitude"]
+    description = data["place"]["extra"]["description"]
+    mq_id = data["place"]["extra"]["mq_id"]
+    #latitude
+    #description
+    #longitude
+    #mqid
 
     data = JSON.parse(request.body.read)
 
-    create_traffic_jam_object(data["place"]["extra"]["mq_id"], data["place"]["extra"]["description"], data["place"]["latitude"], data["place"]["longitude"])
+    create_traffic_jam_object(mq_id, description, latitude, longitude)
 
     @account_sid = 'ACb1215d32cb9641c4b6e37526dd29f981'
     @auth_token = "e9c98d111c0471cc236d0c7a942276ad"
@@ -51,7 +67,7 @@
 
     @account = @client.account
     @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"]})
-
+    "ok"
   end
   
   get '/callback/penalty' do
