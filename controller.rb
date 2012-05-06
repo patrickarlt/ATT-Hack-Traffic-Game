@@ -37,7 +37,7 @@
       puts "access_token.inspect"
       puts access_token.inspect
       
-      location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
+      
 
       user = User.create({
         att_access_token: access_token.token,
@@ -45,7 +45,9 @@
         att_token_expires: access_token.expires_at,
         phone_number: session[:phone]
       })
-      
+
+      location = RestClient.get("https://api.att.com/1/devices/tel:#{user.phone_number}/location?access_token=#{user.att_access_token}&requestedAccuracy=1000");
+
       "#{access_token.inspect}+ <br><br><br> #{location.inspect} <br><br><br> #{User.inspect}"
     rescue OAuth2::Error => e
       erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
