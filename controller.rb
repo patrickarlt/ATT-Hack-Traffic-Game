@@ -20,16 +20,7 @@
   end
 
   get "/user" do
-    users = User.all_in.entries;
-    puts ""
-    puts users.inspect
-    puts ""
-    test = ""
-
-    users.each do |user|
-      test += user.inspect
-    end
-    "* #{test}"
+    "* #{User.all_in.to_json}"
   end
   
   get '/auth' do
