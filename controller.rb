@@ -32,7 +32,7 @@
       user.save()
       test += "#{lat},#{long} || "
     end
-    "#{test}"
+    "* #{test}"
   end
   
   get '/auth' do
