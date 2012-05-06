@@ -49,9 +49,8 @@
     # set up a client to talk to the Twilio REST API
     @client = Twilio::REST::Client.new(@account_sid, @auth_token)
 
-
     @account = @client.account
-    @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"])
+    @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"]})
 
   end
   
@@ -182,7 +181,6 @@
 
 end
 
-
 # the facebook session expired! reset ours and restart the process
 error(Koala::Facebook::APIError) do
   @gl_traffic_jam_url + "<br>" + "error: #{request.env['sinatra.error'].to_s}"
@@ -225,5 +223,3 @@ get '/create' do
     location = create_traffic_jam_object(params[:num], "Car accident ahead!!", 40.0755, -76.329999)
     location
 end
-
-
