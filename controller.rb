@@ -34,15 +34,15 @@
 
   get '/callback/alert' do
     data = {
-      "place":{
-      "place_id":"200",
-       "name":"Palo Alto",
-       "latitude":"37.441898",
-       "longitude":"-122.141899",
-       "extra": {
-          "description":"Car accident ahead!",
-          "mq_id" : "200",
-          "traffic_jam_url": "hollow-fog-8448.herokuapp.com/og/traffic_jam_200.html"
+      "place"=> {
+      "place_id"=> "200",
+       "name"=> "Palo Alto",
+       "latitude"=> "37.441898",
+       "longitude"=> "-122.141899",
+       "extra"=> {
+          "description"=>"Car accident ahead!",
+          "mq_id" => "200",
+          "traffic_jam_url"=> "hollow-fog-8448.herokuapp.com/og/traffic_jam_200.html"
        }
     }
   }
