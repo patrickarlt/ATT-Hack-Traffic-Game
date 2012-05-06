@@ -44,8 +44,8 @@ class User
     south = lat - ten_miles
     east = long + ten_miles
     west = long + ten_miles
-    boundingBox = "#{north}, #{east}, #{south}, #{west}"
-    alerts = Hashie::Mash.new(RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&callback=handleIncidentsResponse&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json"))
+    boundingBox = "#{north},#{east},#{south},#{west}"
+    alerts = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json")
     self.alerts = alerts
     self.save()
   end
