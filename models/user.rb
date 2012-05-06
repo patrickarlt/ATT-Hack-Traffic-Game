@@ -37,6 +37,8 @@ class User
 
     location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
 
+    JSON.parse(location)
+    
     lat = location["latitude"].to_i
     long = location["longitude"].to_i
     ten_miles = 0.144927536 # in arc degrees
@@ -45,8 +47,50 @@ class User
     east = long + ten_miles
     west = long + ten_miles
     boundingBox = "#{north},#{east},#{south},#{west}"
-    alerts = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json")
-    self.alerts = alerts
-    self.save()
+    alerts_raw = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json")
+    alerts = JSON.parse(alerts_raw)
+    alerts["incidents"].each do |alert|
+      
+      alert_place = Geoloqi.post(self.geoloqi_access_token, "trigger/create", {
+        latitude: alert["lat"],
+        longitude: alert["long"],
+        type: "callback",
+        url: "http://hollow-fog-8448.herokuapp.com/callback/arriving"
+        trigger_on: "enter",
+        date_from: alert["startTime"],
+        date_to: alert["endTime"],
+        radius:1000,
+        extra: {
+          description: alert["fullDesc"],
+          mq_id: alert["id"]
+          traffic_jam_url: "http://hollow-fog-8448.herokuapp.com/og/traffic_jam_#{alert['id']}"
+        }
+      })
+      
+      leaving_place = Geoloqi.post(self.geoloqi_access_token, "trigger/create", {
+        place_id: alert_place["place_id"] 
+        trigger_on: "enter",
+        type: "callback",
+        url: "http://hollow-fog-8448.herokuapp.com/callback/leaving"
+        callback
+      })
+
+      penalty_place = Geoloqi.post(self.geoloqi_access_token, "place/create", {
+        latitude: alert["lat"]
+        longitude: alert["long"]
+        trigger_on: "enter",
+        date_from: alert["startTime"],
+        date_to: alert["endTime"],
+        type: "callback"
+        url: "http://hollow-fog-8448.herokuapp.com/callback/penalty"
+        radius:100,
+        extra: {
+          description: alert["fullDesc"],
+          mq_id: alert["id"]
+          traffic_jam_url: "http://hollow-fog-8448.herokuapp.com/og/traffic_jam_#{alert['id']}"
+        }
+      })
+
+    end
   end
 end
