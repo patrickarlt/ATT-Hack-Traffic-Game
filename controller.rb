@@ -29,7 +29,20 @@
   end
   
   get '/callback/leaving' do
+    
+
+
+
+
+
+  end
+
+  get '/callback/alert' do
+
     data = JSON.parse(request.body.read)
+
+    create_traffic_jam_object(data["place"]["extra"]["mq_id"], data["place"]["extra"]["description"], data["place"]["latitude"], data["place"]["longitude"])
+
     @account_sid = 'ACb1215d32cb9641c4b6e37526dd29f981'
     @auth_token = "e9c98d111c0471cc236d0c7a942276ad"
 
@@ -38,18 +51,7 @@
 
 
     @account = @client.account
-    @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"]);
-    puts @message
-  end
-
-  get '/callback/alert' do
-    RestClient.post('https://api.twilio.com/2010-04-01/Accounts/ACb1215d32cb9641c4b6e37526dd29f981/SMS/Messages.json', {
-       from:
-       to:
-       body:
-    });
-      
-      -d 'From=%2B14155992671' -d 'To=5034222345' -d 'Body=There'\''s+an+aciident+near+you%21' -u ACb1215d32cb9641c4b6e37526dd29f981:e9c98d111c0471cc236d0c7a942276ad)
+    @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"])
 
   end
   
@@ -90,3 +92,138 @@
   get '/auth/failure' do
     erb "<h1>Authentication Failed:</h1><h3>message:<h3> <pre>#{params}</pre>"
   end
+
+  helpers do
+  def host
+    request.env['HTTP_HOST']
+  end
+
+  def scheme
+    request.scheme
+  end
+
+  def url_no_scheme(path = '')
+    "//#{host}#{path}"
+  end
+
+  def url(path = '')
+    "#{scheme}://#{host}#{path}"
+  end
+
+  def authenticator
+    @authenticator ||= Koala::Facebook::OAuth.new(ENV["FACEBOOK_APP_ID"], ENV["FACEBOOK_SECRET"], url("/auth/facebook/callback"))
+  end
+
+  # List of helper functions to connect with facebook open graph:
+  # create open graph webpage and publish action to facebook given location, start and end time
+  def create_traffic_jam_object(mq_id, mq_msg, lat, lng)
+    mq_reverse_geocode_url = "http://www.mapquestapi.com/geocoding/v1/reverse?key="+ENV["MAPQUEST_KEY"]+"&lat=#{lat}&lng=#{lng}"
+    response = RestClient.get mq_reverse_geocode_url
+    response = JSON.parse(response)
+    response = response['results'][0]['locations'][0]
+    location = response['street'];
+    # Add city
+    if location.nil?
+      location = response['adminArea5']
+    elsif !response['adminArea5'].nil?
+      location = location + ', ' + response['adminArea5']
+    end
+    # Add state
+    if location.nil?
+      location = response['adminArea3']
+    elsif !response['adminArea3'].nil?
+      location = location + ', ' + response['adminArea3']
+    end
+    # Add country
+    if location.nil?
+      location = response['adminArea1']
+    elsif !response['adminArea1'].nil?
+      location = location + ', ' + response['adminArea1']
+    end
+    
+    relative_path = "/og/traffic_jam_#{mq_id}.html"
+    absolute_path = "#{File.dirname(__FILE__)}/public#{relative_path}"
+    public_path = "#{url('')}#{relative_path}"
+
+    template =
+      "<head prefix=\"og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# #{ENV['FACEBOOK_NAMESPACE']}: http://ogp.me/ns/fb/#{ENV['FACEBOOK_NAMESPACE']}#\">\n" +
+        "<meta property=\"fb:app_id\"                      content=\"#{ENV['FACEBOOK_APP_ID']}\" />\n" +
+        "<meta property=\"og:type\"                        content=\"#{ENV['FACEBOOK_NAMESPACE']}:traffic_jam\" />\n" +
+        "<meta property=\"og:url\"                         content=\"#{public_path}\" />\n" +
+        "<meta property=\"og:title\"                       content=\"#{location}\" />\n" +
+        "<meta property=\"og:image\"                       content=\"#{url('')}/images/traffic-jam-delay.jpg\" />\n" +
+        "<meta property=\"#{ENV['FACEBOOK_NAMESPACE']}:location:latitude\"  content=\"#{lat}\" />\n" +
+        "<meta property=\"#{ENV['FACEBOOK_NAMESPACE']}:location:longitude\" content=\"#{lng}\" />\n" +
+      "</head>\n" +
+      "<body>\n" +
+        "<h1>#{location}</h1>\n" +
+      "</body>\n"
+    page = File.new(absolute_path, "w")
+    page.write(template)
+    page.close()
+    public_path 
+  end
+
+  def publish_traffic_jam_avoid_action(gl_user_id, gl_traffic_jam_url, gl_loc_name, gl_loc_lat, gl_loc_lng)
+    # TODO: get access token and fb_user_id from gl_user_id
+
+    # sample access token for test user
+    #access_token = 'AAAFErKQRIfYBABRVhZCRrF6cLT3qDH8EVZADY4ElGFnU9q56OoggcoviO0pPkmRHgF50AVTkVfzgExrxwoPdz0p0CZCHvZAZCgkCeUhbw2gZDZD'
+    access_token = "AAAFRO8jyhBYBAHFUHMKkbQFOv9aMj7LILNGb3fJc3PzrYOfW3GhetFsRWLJhOUPCsObdafUqxTZBJ9PYAisOIJsIjcU1h1rmaaGZBGVQZDZD";
+
+    avoid_image_url = "#{url('')}/images/traffic-jam-avoid.jpg"
+    # Get base API Connection
+    @graph  = Koala::Facebook::API.new(access_token)
+    # publish action
+    @graph.graph_call("me/#{ENV['FACEBOOK_NAMESPACE']}:avoid", {:traffic_jam => gl_traffic_jam_url, :image => avoid_image_url}, "post") do |result|
+      result
+    end
+  end
+
+end
+
+
+# the facebook session expired! reset ours and restart the process
+error(Koala::Facebook::APIError) do
+  @gl_traffic_jam_url + "<br>" + "error: #{request.env['sinatra.error'].to_s}"
+  #session[:access_token] = nil
+  #redirect "/auth/facebook"
+end
+
+# used by Canvas apps - redirect the POST to be a regular GET
+post "/" do
+  redirect "/"
+end
+
+# used to close the browser window opened to post to wall/send to friends
+get "/close" do
+  "<body onload='window.close();'/>"
+end
+
+get "/sign_out" do
+  session[:access_token] = nil
+  redirect '/'
+end
+
+get "/auth/facebook" do
+  session[:access_token] = nil
+  redirect authenticator.url_for_oauth_code(:permissions => FACEBOOK_SCOPE)
+end
+
+get '/auth/facebook/callback' do
+  session[:access_token] = authenticator.get_access_token(params[:code])
+  redirect '/'
+end
+
+get '/publish' do
+    @gl_traffic_jam_url = url('') + "/og/traffic_jam_#{params[:num]}.html"
+    puts @gl_traffic_jam_url
+    publish_traffic_jam_avoid_action('', @gl_traffic_jam_url,'Mountain View', 37.3861, -122.083)
+end
+
+get '/create' do
+    location = create_traffic_jam_object(params[:num], "Car accident ahead!!", 40.0755, -76.329999)
+    location
+end
+
+

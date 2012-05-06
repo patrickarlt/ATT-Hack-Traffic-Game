@@ -12,6 +12,8 @@ Dir.glob(%w{lib/** helpers models}.map! {|d| File.join d, '*.rb'}).each {|f| req
   def self.Settings
     @_config
   end
+
+  FACEBOOK_SCOPE = 'publish_actions'
   
   helpers  Sinatra::UserAgentHelpers
   
