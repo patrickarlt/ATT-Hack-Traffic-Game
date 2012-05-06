@@ -58,7 +58,7 @@
 
     #data = JSON.parse(request.body.read)
 
-    create_traffic_jam_object(mq_id, description, latitude, longitude)
+    #create_traffic_jam_object(mq_id, description, latitude, longitude)
 
     @account_sid = 'ACb1215d32cb9641c4b6e37526dd29f981'
     @auth_token = "e9c98d111c0471cc236d0c7a942276ad"
