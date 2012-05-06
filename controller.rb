@@ -24,8 +24,13 @@
       test = ""
       location = RestClient.get("https://api.att.com/1/devices/tel:#{user.phone_number}/location?access_token=#{user.att_access_token}&requestedAccuracy=1000");
       lat = location["latitude"]
-      long =location["longitude"]
-      test += "#{lat, long}, "
+      long = location["longitude"]
+      user.last_location = {
+        latitude: location["latitude"],
+        longitude: location["longitude"]
+      }
+      user.save()
+      test += "#{lat},#{long} || "
     end
     "#{test}"
   end
