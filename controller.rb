@@ -20,7 +20,14 @@
   end
 
   get "/user" do
-    "* #{User.all_in.to_json}"
+    User.all_in.each do |user|
+      test = ""
+      location = RestClient.get("https://api.att.com/1/devices/tel:#{user.phone_number}/location?access_token=#{user.att_access_token}&requestedAccuracy=1000");
+      lat = location["latitude"]
+      long =location["longitude"]
+      test += "#{lat, long}, "
+    end
+    "#{test}"
   end
   
   get '/auth' do
