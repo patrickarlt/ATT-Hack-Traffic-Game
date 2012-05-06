@@ -35,21 +35,22 @@
   get '/callback/alert' do
     data = {
       "place"=> {
-      "place_id"=> "200",
-       "name"=> "Palo Alto",
-       "latitude"=> "37.441898",
-       "longitude"=> "-122.141899",
-       "extra"=> {
-          "description"=>"Car accident ahead!",
-          "mq_id" => "200",
-          "traffic_jam_url"=> "hollow-fog-8448.herokuapp.com/og/traffic_jam_200.html"
-       }
+        "place_id"=> "200",
+         "name"=> "Palo Alto",
+         "latitude"=> "37.441898",
+         "longitude"=> "-122.141899",
+         "extra"=> {
+            "description"=>"Car accident ahead!",
+            "mq_id" => "200",
+            "traffic_jam_url"=> "hollow-fog-8448.herokuapp.com/og/traffic_jam_200.html"
+         }
+      }
     }
-  }
     latitude = data["place"]["latitude"]
     longitude = data["place"]["longitude"]
     description = data["place"]["extra"]["description"]
     mq_id = data["place"]["extra"]["mq_id"]
+    
     #latitude
     #description
     #longitude
@@ -66,14 +67,13 @@
     @client = Twilio::REST::Client.new(@account_sid, @auth_token)
 
     @account = @client.account
-    @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"]})
+    @message = @account.sms.messages.create({:from => '+14155992671', :to => '7348833328', :body => data["place"]["extra"]["description"]})
     "ok"
   end
   
   get '/callback/penalty' do
   
   end
-
 
   get '/auth' do
     session[:phone] = params[:phone].delete "-"
@@ -98,7 +98,7 @@
 
       location = RestClient.get("https://api.att.com/1/devices/tel:#{user.phone_number}/location?access_token=#{user.att_access_token}&requestedAccuracy=1000");
 
-      "#{access_token.inspect}+ <br><br><br> #{location.inspect} <br><br><br> #{User.inspect}"
+      "<h1>You Are Signed Up!</h1>"
     rescue OAuth2::Error => e
       erb %(<p>#{$!}</p><p><a href="/auth">Retry</a></p>)
     end
