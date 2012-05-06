@@ -37,8 +37,8 @@ class User
 
     location = RestClient.get("https://api.att.com/1/devices/tel:#{self.phone_number}/location?access_token=#{self.att_access_token}&requestedAccuracy=1000");
 
-    lat = location["latitude"]
-    long = location["longitude"]
+    lat = location["latitude"].to_i
+    long = location["longitude"].to_i
     ten_miles = 0.144927536 # in arc degrees
     north = lat + ten_miles
     south = lat - ten_miles
