@@ -41,13 +41,13 @@ class User
     
     #lat = location["latitude"].to_i
     #long = location["longitude"].to_i
-    lat = 37.443012503777,
-    long = -122.1582415379,
+    lat = 37.443012503777
+    long = -122.1582415379
     ten_miles = 0.144927536 # in arc degrees
-    north = lat + ten_miles
-    south = lat - ten_miles
-    east = long + ten_miles
-    west = long + ten_miles
+    north = (lat + ten_miles)
+    south = (lat - ten_miles)
+    east = (long + ten_miles)
+    west = (long + ten_miles)
     boundingBox = "#{north},#{east},#{south},#{west}"
     alerts_raw = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json")
     alerts = JSON.parse(alerts_raw)
