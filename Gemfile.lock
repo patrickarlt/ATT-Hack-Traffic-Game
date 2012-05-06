@@ -31,6 +31,9 @@ GEM
     httpauth (0.1)
     i18n (0.6.0)
     json (1.7.0)
+    koala (1.1.0)
+      multi_json (~> 1.0)
+      multipart-post (~> 1.0)
     mime-types (1.18)
     mongo (1.5.2)
       bson (= 1.5.2)
@@ -98,6 +101,8 @@ DEPENDENCIES
   foreman (~> 0.41.0)
   geoloqi (= 0.9.39)
   hashie (= 1.2.0)
+  httparty
+  koala
   mongoid (~> 2.3)
   oauth2 (~> 0.7.1)
   puma

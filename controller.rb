@@ -168,8 +168,8 @@
 
     # sample access token for test user
     #access_token = 'AAAFErKQRIfYBABRVhZCRrF6cLT3qDH8EVZADY4ElGFnU9q56OoggcoviO0pPkmRHgF50AVTkVfzgExrxwoPdz0p0CZCHvZAZCgkCeUhbw2gZDZD'
-    access_token = "AAAFRO8jyhBYBAHFUHMKkbQFOv9aMj7LILNGb3fJc3PzrYOfW3GhetFsRWLJhOUPCsObdafUqxTZBJ9PYAisOIJsIjcU1h1rmaaGZBGVQZDZD";
-
+    #access_token = "AAAFRO8jyhBYBAHFUHMKkbQFOv9aMj7LILNGb3fJc3PzrYOfW3GhetFsRWLJhOUPCsObdafUqxTZBJ9PYAisOIJsIjcU1h1rmaaGZBGVQZDZD"
+    access_token = "AAAFRO8jyhBYBAJ6GJhr4KNkjkjWD3obflPZCvZAM2rYVJZCTYdRQen3jEOaZCDF5bZCWWsqtepNZBWtgBEgc5a8F4qN47YMw8q17N7baqaygZDZD"
     avoid_image_url = "#{url('')}/images/traffic-jam-avoid.jpg"
     # Get base API Connection
     @graph  = Koala::Facebook::API.new(access_token)
