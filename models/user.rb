@@ -39,8 +39,10 @@ class User
 
     JSON.parse(location)
     
-    lat = location["latitude"].to_i
-    long = location["longitude"].to_i
+    #lat = location["latitude"].to_i
+    #long = location["longitude"].to_i
+    lat = 37.443012503777,
+    long = -122.1582415379,
     ten_miles = 0.144927536 # in arc degrees
     north = lat + ten_miles
     south = lat - ten_miles
