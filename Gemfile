@@ -22,6 +22,6 @@ gem "bcrypt-ruby",                        :require => "bcrypt"
 gem 'puma'
 
 gem "oauth2", "~> 0.7.1"
-gem "twilio", "~> 3.1.0"
+gem "twilio-ruby", "~> 3.7.0"
 gem "httparty"
 gem "koala"
