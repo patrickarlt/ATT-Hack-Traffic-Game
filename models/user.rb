@@ -55,7 +55,7 @@ class User
         latitude: alert["lat"],
         longitude: alert["long"],
         type: "callback",
-        url: "http://hollow-fog-8448.herokuapp.com/callback/arriving"
+        url: "http://hollow-fog-8448.herokuapp.com/callback/alert"
         trigger_on: "enter",
         date_from: alert["startTime"],
         date_to: alert["endTime"],
@@ -72,7 +72,6 @@ class User
         trigger_on: "enter",
         type: "callback",
         url: "http://hollow-fog-8448.herokuapp.com/callback/leaving"
-        callback
       })
 
       penalty_place = Geoloqi.post(self.geoloqi_access_token, "place/create", {

@@ -28,6 +28,36 @@
     halt 200, test
   end
   
+  get '/callback/leaving' do
+    data = JSON.parse(request.body.read)
+    @account_sid = 'ACb1215d32cb9641c4b6e37526dd29f981'
+    @auth_token = "e9c98d111c0471cc236d0c7a942276ad"
+
+    # set up a client to talk to the Twilio REST API
+    @client = Twilio::REST::Client.new(@account_sid, @auth_token)
+
+
+    @account = @client.account
+    @message = @account.sms.messages.create({:from => '+14155992671', :to => '5034222345', :body => data["place"]["extra"]["description"]);
+    puts @message
+  end
+
+  get '/callback/alert' do
+    RestClient.post('https://api.twilio.com/2010-04-01/Accounts/ACb1215d32cb9641c4b6e37526dd29f981/SMS/Messages.json', {
+       from:
+       to:
+       body:
+    });
+      
+      -d 'From=%2B14155992671' -d 'To=5034222345' -d 'Body=There'\''s+an+aciident+near+you%21' -u ACb1215d32cb9641c4b6e37526dd29f981:e9c98d111c0471cc236d0c7a942276ad)
+
+  end
+  
+  get '/callback/penalty' do
+  
+  end
+
+
   get '/auth' do
     session[:phone] = params[:phone].delete "-"
     authorization_url = client.auth_code.authorize_url(:redirect_uri => redirect_uri, :response_type => "client_credentials", :scope => "TL")
