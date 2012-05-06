@@ -55,37 +55,37 @@ class User
         latitude: alert["lat"],
         longitude: alert["long"],
         type: "callback",
-        url: "http://hollow-fog-8448.herokuapp.com/callback/alert"
+        url: "http://hollow-fog-8448.herokuapp.com/callback/alert",
         trigger_on: "enter",
         date_from: alert["startTime"],
         date_to: alert["endTime"],
         radius:1000,
         extra: {
           description: alert["fullDesc"],
-          mq_id: alert["id"]
+          mq_id: alert["id"],
           traffic_jam_url: "http://hollow-fog-8448.herokuapp.com/og/traffic_jam_#{alert['id']}"
         }
       })
       
       leaving_place = Geoloqi.post(self.geoloqi_access_token, "trigger/create", {
-        place_id: alert_place["place_id"] 
+        place_id: alert_place["place_id"],
         trigger_on: "enter",
         type: "callback",
         url: "http://hollow-fog-8448.herokuapp.com/callback/leaving"
       })
 
       penalty_place = Geoloqi.post(self.geoloqi_access_token, "place/create", {
-        latitude: alert["lat"]
-        longitude: alert["long"]
+        latitude: alert["lat"],
+        longitude: alert["long"],
         trigger_on: "enter",
         date_from: alert["startTime"],
         date_to: alert["endTime"],
-        type: "callback"
-        url: "http://hollow-fog-8448.herokuapp.com/callback/penalty"
+        type: "callback",
+        url: "http://hollow-fog-8448.herokuapp.com/callback/penalty",
         radius:100,
         extra: {
           description: alert["fullDesc"],
-          mq_id: alert["id"]
+          mq_id: alert["id"],
           traffic_jam_url: "http://hollow-fog-8448.herokuapp.com/og/traffic_jam_#{alert['id']}"
         }
       })
