@@ -24,7 +24,11 @@
     puts ""
     puts users.inspect
     puts ""
-    "#{users.each { |user| user inspect } } hello"
+    test = ""
+    users.each do |user|
+      test += user.inspect
+    end
+    "* #{test}"
   end
   
   get '/auth' do
