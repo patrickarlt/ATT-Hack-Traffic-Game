@@ -56,7 +56,7 @@
     #longitude
     #mqid
 
-    data = JSON.parse(request.body.read)
+    #data = JSON.parse(request.body.read)
 
     create_traffic_jam_object(mq_id, description, latitude, longitude)
 
