@@ -22,7 +22,7 @@
   get "/user" do
     test = ""
     User.all_in.each do |user|
-      user.update_postition_and_alerts
+      user.update_location_and_alerts
       test += user.to_json
     end
     halt 200, test
