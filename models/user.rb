@@ -49,7 +49,8 @@ class User
     east = (long + ten_miles)
     west = (long + ten_miles)
     boundingBox = "#{north},#{east},#{south},#{west}"
-    alerts_raw = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json")
+    #alerts_raw = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=#{ENV["MAPQUEST_KEY"]}&boundingBox=#{boundingBox}&filters=construction,incidents&inFormat=kvp&outFormat=json")
+    alerts_raw = RestClient.get("http://www.mapquestapi.com/traffic/v1/incidents?key=ENV[%22MAPQUEST_KEY%22]&boundingBox=37.660066,-122.415976,37.223928,-121.866659&filters=construction,incidents&inFormat=kvp&outFormat=json")
     alerts = JSON.parse(alerts_raw)
     alerts["incidents"].each do |alert|
       
